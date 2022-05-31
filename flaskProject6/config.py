@@ -10,7 +10,7 @@ class Config:
     MAIL_SERVER = 'smtp.qq.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
-    MAIL_USERNAME = '497837671@qq.com'
+    MAIL_USERNAME = <输入你自己的邮箱>
     MAIL_PASSWORD = 
     FLASKY_MAIL_SUBJECT_PREFIX = '测试系统'
     FLASKY_MAIL_SENDER = 'pzl_web <497837671@qq.com>'
