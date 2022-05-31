@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{#导入macros.html模板#}
+{% import "_macros.html" as macros %}
+
+{% block title %}测试系统{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}帅哥美女们{% endif %}!</h1>
+    {% if current_user.is_authenticated %}
+    {% else %}
+    <h3><a class="label label-default" href="http://127.0.0.1:5000/auth/login">欢迎使用测试系统</a></h3>
+    {% endif %}
+</div>
+    <div>
+    {% if current_user.can(Permission.WRITE) or current_user.can(Permission.ADMIN) %}
+    {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+<div></div>
+<div class="profile-header02">
+    <ul class="nav nav-tabs">
+        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">所有文章</a></li>
+        {% if current_user.is_authenticated %}
+        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">关注文章</a></li>
+        {% endif %}
+    </ul>
+    {% include '_posts.html' %}
+</div>
+{#在博客文章列表下面添加分页导航#}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+{% endblock %}
+{#Flask-PageDown 模板声明#}
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
+

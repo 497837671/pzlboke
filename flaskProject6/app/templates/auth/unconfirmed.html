@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}测试系统 - Confirm your account{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        你好, {{ current_user.username }}!
+    </h1>
+    <h3>你还没有在你的电子邮件确认账户。</h3>
+    <p>
+        在你能进入这个网站之前，你需要确认你的帐户。 请检查你的收件箱，
+        你应该已经收到一封带有确认链接的电子邮件。系统检测到你还没确认账户。
+    </p>
+    <p>
+        需要重新发送另一封确认邮件吗?
+        <a href="{{ url_for('auth.resend_confirmation') }}">点击这里</a>
+    </p>
+</div>
+{% endblock %}

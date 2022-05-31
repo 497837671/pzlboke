@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}测试系统{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>欢迎, {% if name %}{{ name }}{% else %}使用测试系统{% endif %}!</h1>
+    {% if  not known %}
+        <p>数据库保存成功！</p>
+        {% else %}
+        <p>数据库已经有啦！</p>
+    {% endif %}
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}测试系统 - 删除评论{% endblock %}
+
+{% block page_content %}
+    <a href="{{ url_for('main.index')}}">
+        <span class="label label-default">返回首页</span>
+    </a>
+{#{% include '_posts.html' %}#}
+{% endblock %}

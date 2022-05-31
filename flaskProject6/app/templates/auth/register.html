@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}测试系统 - Register{% endblock %}
+
+{% block page_content %}
+<div class="row col-md-4"></div>
+<div class="page-header row col-md-4">
+    <h1 class="login-center">注册用户</h1>
+    <hr />
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

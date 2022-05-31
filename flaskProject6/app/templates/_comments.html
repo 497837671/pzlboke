@@ -1,0 +1,51 @@
+<ul class="comments">
+    {% for comment in comments %}
+    <li class="comment">
+        <div class="comment-thumbnail">
+            <a href="{{ url_for('.user', username=comment.author.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ comment.author.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="comment-content">
+            <div class="comment-date">{{ moment(comment.timestamp).fromNow() }}</div>
+            <div class="comment-author"><a href="{{ url_for('.user', username=comment.author.username) }}">{{ comment.author.username }}</a></div>
+            <div class="comment-body">
+                {% if comment.disabled %}
+                <p><i>该评论已被管理员禁止.</i></p>
+                {% endif %}
+                {% if moderate or not comment.disabled %}
+                    {% if comment.body_html %}
+                        {{ comment.body_html | safe }}
+                    {% else %}
+                        {{ comment.body }}
+                    {% endif %}
+                {% endif %}
+            </div>
+              <div class="post-footer">
+{#                    {% if current_user == comment.author %}#}
+                <a href="/delete_comment/{{ comment.id }}">
+                    <span class="label label-default">删除</span>
+                </a>
+{#                    {% elif current_user.is_administrator() %}#}
+                <a href="/delete_comment/{{ comment.id }}">
+                    <span class="label label-default">删除[Admin]</span>
+                </a>
+{#                    {% endif %}#}
+                    {% if current_user.is_authenticated %}
+                <a href="/abc/{{ comment.id }}">
+                    <span class="label label-default">回复</span>
+                </a>
+                    {% endif %}
+              </div>
+            {% if moderate %}
+                <br>
+                {% if comment.disabled %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">开启</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">禁止</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>

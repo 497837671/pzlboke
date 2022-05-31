@@ -1,0 +1,71 @@
+<ul class="posts">
+    {% for post in posts %}
+    <li class="post ground-color"  style="padding: 20px">
+        <div class="post-thumbnail">
+            <a href="{{ url_for('.user', username=post.author.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ post.author.gravatar(size=40) }}">
+            </a>
+        </div>
+        <div class="post-content">
+            <div class="post-date">{{ moment(post.timestamp).format('LLL') }}</div>
+            <div class="post-author"><a href="{{ url_for('.user', username=post.author.username) }}">{{ post.author.username }}</a></div>
+            <div><h4><a href="{{ url_for('.post', id=post.id) }}">{{ post.title }}</a></h4></div>
+            <div class="post-body">
+                {% if post.body_html %}
+                    {{ post.body_html | safe }}
+                {% else %}
+                    {{ post.body }}
+                {% endif %}
+            </div>
+             <div class="post-footer">
+                    {% if current_user == post.author %}
+                <a href="/delete_post/{{ post.id }}">
+                    <span class="label label-default">删除</span>
+                </a>
+                    {% elif current_user.is_administrator() %}
+                <a href="/delete_post/{{ post.id }}">
+                    <span class="label label-default">删除[Admin]</span>
+                </a>
+                {% endif %}
+                  {% if current_user == post.author %}
+                <a href="{{ url_for('.edit', id=post.id) }}">
+                    <span class="label label-default">编辑</span>
+                </a>
+                    {% elif current_user.is_administrator() %}
+                <a href="{{ url_for('.edit', id=post.id) }}">
+                    <span class="label label-default">编辑[Admin]</span>
+                </a>
+                {% endif %}
+
+                <a href="{{ url_for('.post', id=post.id) }}">
+                    <span class="label label-default">分享链接</span>
+                </a>
+                <a href="{{ url_for('.post', id=post.id) }}#comments">
+                    <span class="label label-primary">{{ post.comments.count() }} 评论</span>
+                </a>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{#<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">#}
+{#<ul class="posts">#}
+{#    {% for post in posts %}#}
+{#    <li class="post">#}
+{#    <hr />#}
+{#        <div class="post-thumbnail">#}
+{#            <a href="{{ url_for('.user', username=post.author.username) }}">#}
+{#                <style>.div-left{width:28px;height:29px;border:4px solid #ffffff;float:left}</style>#}
+{#                <img class="div-left" src="{{ post.author.gravatar(size=100) }}">#}
+{#            </a>#}
+{#            <div class="post-author"><h3><a href="{{ url_for('.user', username=post.author.username) }}">{{ post.author.username }}</a></h3></div>#}
+{#        </div>#}
+{#        <div class="post-content">#}
+{#            <div class="post-body">{{ post.body }}</div>#}
+{#            <div class="post-date">{{ moment(post.timestamp).format('LLL') }}</div>#}
+{#        </div>#}
+{#    </li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+
+

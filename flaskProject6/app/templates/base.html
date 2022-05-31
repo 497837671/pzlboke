@@ -1,0 +1,190 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}测试系统{% endblock %}
+
+{% block head %}
+{{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Zego</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="/pzl">PZL</a> </li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('main.user', username=current_user.username) }}">个人资料</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="profile-header02">
+                    <form class="form-inline" method="get" action="{{ url_for("main.search") }}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="输入搜索文章" aria-label="Search" name="q">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                    </form>
+                </li>
+                {% if current_user.can(Permission.MODERATE) %}
+                <li><a href="{{ url_for('main.moderate') }}">管理评论</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ current_user.gravatar(size=18) }}">
+                        {{ current_user.username }} <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.change_password') }}">修改密码</a></li>
+                        <li><a href="{{ url_for('auth.change_email_request') }}">修改邮箱</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">退出账号</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <!--小帅哥： https://unpkg.com/live2d-widget-model-chitose@1.0.5/assets/chitose.model.json-->
+  <!--萌娘：https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json-->
+  <!--小可爱（女）：https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json-->
+  <!--小可爱（男）：https://unpkg.com/live2d-widget-model-haruto@1.0.5/assets/haruto.model.json-->
+  <!--初音：https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json-->
+   <!-- 上边的不一样连接显示的是不一样的小人，这个能够根据须要来选择 下边的初始化部分，能够修改宽高来修改小人的大小，或者是鼠标移动到小人上的透明度，也能够修改小人在页面出现的位置。 -->
+  <script>
+    /*https://unpkg.com/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json*/
+    L2Dwidget.init({ "model": { jsonPath:
+          "https://unpkg.com/live2d-widget-model-miku@1.0.5/assets/miku.model.json",
+        "scale": 1 }, "display": { "position": "right", "width": 50, "height": 100,
+        "hOffset": 0, "vOffset": -20 }, "mobile": { "show": true, "scale": 0.5 },
+      "react": { "opacityDefault": 0.5, "opacityOnHover": 0.1 } });
+  </script>
+
+   <script type="text/javascript">
+        /**
+         * Copyright (c) 2016 hustcc
+         * License: MIT
+         * Version: v1.0.1
+         * GitHub: https://github.com/hustcc/canvas-nest.js
+        **/
+        !
+            function () {
+                function n(n, e, t) {
+                    return n.getAttribute(e) || t
+                }
+                function e(n) {
+                    return document.getElementsByTagName(n)
+                }
+                function t() {
+                    var t = e("script"),
+                        o = t.length,
+                        i = t[o - 1];
+                    return {
+                        l: o,
+                        z: n(i, "zIndex", -1),
+                        o: n(i, "opacity", 0.6),
+                        c: n(i, "color", "77,77,77"),
+                        n: n(i, "count", 129)
+                    }
+                }
+                function o() {
+                    a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+                        c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+                }
+                function i() {
+                    r.clearRect(0, 0, a, c);
+                    var n, e, t, o, m, l;
+                    s.forEach(function (i, x) {
+                        for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e],
+                            null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+                    }),
+                        x(i)
+                }
+                var a, c, u, m = document.createElement("canvas"),
+                    d = t(),
+                    l = "c_n" + d.l,
+                    r = m.getContext("2d"),
+                    x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+                        function (n) {
+                            window.setTimeout(n, 1e3 / 45)
+                        },
+                    w = Math.random,
+                    y = {
+                        x: null,
+                        y: null,
+                        max: 2e4
+                    };
+                m.id = l,
+                    m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o,
+                    e("body")[0].appendChild(m),
+                    o(),
+                    window.onresize = o,
+                    window.onmousemove = function (n) {
+                        n = n || window.event,
+                            y.x = n.clientX,
+                            y.y = n.clientY
+                    },
+                    window.onmouseout = function () {
+                        y.x = null,
+                            y.y = null
+                    };
+                for (var s = [], f = 0; d.n > f; f++) {
+                    var h = w() * a,
+                        g = w() * c,
+                        v = 2 * w() - 1,
+                        p = 2 * w() - 1;
+                    s.push({
+                        x: h,
+                        y: g,
+                        xa: v,
+                        ya: p,
+                        max: 6e3
+                    })
+                }
+                u = s.concat([y]),
+                    setTimeout(function () {
+                        i()
+                    },
+                        100)
+            }();
+</script>
+{{ super() }}
+{{ moment.include_moment() }}
+    <div class="container login-center">
+    <hr />
+    <p>The local date and time is {{ moment(current_time).format('LLL') }}.</p>
+    <p>That was {{ moment(current_time).fromNow(refresh=True) }}.</p>
+    </div>
+{% endblock %}

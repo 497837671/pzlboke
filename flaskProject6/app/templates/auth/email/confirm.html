@@ -1,0 +1,8 @@
+<p>亲爱的 {{ user.username }},</p>
+<p>欢迎使用 <b>pzl测试系统</b>!</p>
+<p>请确认您的账号 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">点击这里</a>.</p>
+<p>或者，您可以将以下链接粘贴到您的浏览器地址栏:  </p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>真诚的，</p>
+<p>测试系统团队</p>
+<p><small>注意: 邮件由系统自动发送,请勿回复！</small></p>

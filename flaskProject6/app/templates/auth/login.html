@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} 测试系统 - Login{% endblock %}
+
+{% block page_content %}
+<div class="row col-md-4"></div>
+<div class="page-header row col-md-4 login-color">
+    <h1 class="login-center">登录页面</h1>
+    <hr />
+    {{ wtf.quick_form(form) }}
+    <hr />
+    <p><a href="{{ url_for('auth.password_reset_request') }}">忘记密码</a></p>
+    <p><a href="{{ url_for('auth.register') }}">注册用户</a></p>
+</div>
+{% endblock %}
